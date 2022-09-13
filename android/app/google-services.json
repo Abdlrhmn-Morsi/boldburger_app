@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "421327950692",
+    "project_id": "boldburger-ddab5",
+    "storage_bucket": "boldburger-ddab5.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:421327950692:android:1364a1ee87707792c06071",
+        "android_client_info": {
+          "package_name": "com.example.boldburger"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "421327950692-jj2ku3b4kdfsv6ggkb33hkcgf9komlnp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBX8TxJKcdrO8KtKxKu4jC4QoHEY4CF5OI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "421327950692-jj2ku3b4kdfsv6ggkb33hkcgf9komlnp.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
