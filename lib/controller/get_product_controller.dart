@@ -33,6 +33,7 @@ class GetProductController extends GetxController {
                 img: doc['img'],
                 description: doc['description'],
                 price: doc['price'],
+                productCount: doc['productCount'],
               ))
           .toList());
 

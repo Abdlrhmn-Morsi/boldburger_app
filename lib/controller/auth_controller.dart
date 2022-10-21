@@ -1,3 +1,4 @@
+import 'package:boldburger/view/screens/auth_view/auth_view.dart';
 import '../view/screens/home_view/home_view.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -15,39 +16,64 @@ class AuthController extends GetxController {
   GoogleSignInAccount? user;
   RxBool isLoading = false.obs;
 
-  Future googleSign() async {
-    isLoading = true.obs;
+  Future googleSign(context) async {
+    try {
+      showDialog(
+        context: context,
+        builder: (context) => const Center(
+          child: CircularProgressIndicator(
+            color: Colors.amber,
+          ),
+        ),
+      );
+      final googleAccount = await GoogleSignIn().signIn();
+      user = googleAccount;
 
-    final googleAccount = await GoogleSignIn().signIn();
-    user = googleAccount;
+      final googleAuth = await googleAccount!.authentication;
+      final credential = GoogleAuthProvider.credential(
+        accessToken: googleAuth.accessToken,
+        idToken: googleAuth.idToken,
+      );
+      await auth.signInWithCredential(credential);
 
-    final googleAuth = await googleAccount!.authentication;
-    final credential = GoogleAuthProvider.credential(
-      accessToken: googleAuth.accessToken,
-      idToken: googleAuth.idToken,
-    );
-    await auth.signInWithCredential(credential);
-    isLoading = false.obs;
-    Get.to(() => HomeView());
+      Get.to(() => HomeView());
+    } on FirebaseAuthException catch (e) {
+      showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          content: Text(e.message.toString()),
+        ),
+      );
+    }
+    update();
   }
 
   //AACA
 //acount / auth / credencial / auth
 
-  Future signUPwithEmailANDpassword() async {
+  Future signUPwithEmailANDpassword(context) async {
     try {
-      isLoading = true.obs;
-
-      final credential = await auth.createUserWithEmailAndPassword(
+      showDialog(
+        context: context,
+        builder: (context) => const Center(
+          child: CircularProgressIndicator(
+            color: Colors.amber,
+          ),
+        ),
+      );
+      await auth.createUserWithEmailAndPassword(
         email: signUPemailTextController.text,
         password: signUPpasswordTextController.text,
       );
-
-      isLoading = false.obs;
     } on FirebaseAuthException catch (e) {
-      print(e.toString());
-      Get.snackbar('error', e.toString(), colorText: Colors.red);
+      showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          content: Text(e.message.toString()),
+        ),
+      );
     }
+    update();
 
     if (auth.currentUser != null && !auth.currentUser!.emailVerified) {
       await auth.currentUser!.sendEmailVerification();
@@ -56,19 +82,53 @@ class AuthController extends GetxController {
     Get.to(() => HomeView());
   }
 
-  Future signINwithEmailANDpassword() async {
+  Future signINwithEmailANDpassword(context) async {
     try {
-      isLoading = true.obs;
-
+      showDialog(
+        context: context,
+        builder: (context) => const Center(
+          child: CircularProgressIndicator(
+            color: Colors.amber,
+          ),
+        ),
+      );
       await auth.signInWithEmailAndPassword(
         email: signINemailTextController.text,
         password: signINpasswordTextController.text,
       );
 
-      isLoading = false.obs;
       Get.to(() => HomeView());
     } on FirebaseAuthException catch (e) {
-      Get.snackbar('error', e.toString(), colorText: Colors.red);
+      showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          content: Text(e.message.toString()),
+        ),
+      );
     }
+    update();
+  }
+
+  void signOut(context) async {
+    try {
+      showDialog(
+        context: context,
+        builder: (context) => const Center(
+          child: CircularProgressIndicator(
+            color: Colors.amber,
+          ),
+        ),
+      );
+      await auth.signOut();
+      Get.to(() => const AuthView());
+    } on FirebaseAuthException catch (e) {
+      showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          content: Text(e.message.toString()),
+        ),
+      );
+    }
+    update();
   }
 }

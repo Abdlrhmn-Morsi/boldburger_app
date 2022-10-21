@@ -195,6 +195,7 @@ class _DetailsViewState extends State<DetailsView> {
                     height: 70,
                     width: 180,
                     onPressed: () {
+                      crudProductController.addToCheckout(widget.burger);
                       Get.to(
                           transition: Transition.cupertino,
                           () => const CheckoutView());

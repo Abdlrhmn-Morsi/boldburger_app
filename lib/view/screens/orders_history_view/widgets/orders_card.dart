@@ -24,18 +24,21 @@ class OrdersHistoryCard extends StatelessWidget {
               child: CircularProgressIndicator(),
             );
           }
+          if (snapshot.data == null) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          }
           List<Product> ordersList = snapshot.data;
 
           return Expanded(
             child: ListView.builder(
               padding: const EdgeInsets.all(0),
               shrinkWrap: true,
-              itemCount: ordersList.length - 1,
+              itemCount: ordersList.length,
               itemBuilder: (context, i) {
                 Product order = ordersList[i];
-                if (order.id == 'total') {
-                  ordersList[i + 1];
-                }
+
                 return Container(
                   margin: const EdgeInsets.only(
                     left: 20,
@@ -101,7 +104,7 @@ class OrdersHistoryCard extends StatelessWidget {
                               ),
                               child: Text(
                                 order.productCount.toString(),
-                                style: TextStyle(
+                                style: const TextStyle(
                                   color: Colors.white,
                                   fontSize: 16,
                                 ),
@@ -115,20 +118,18 @@ class OrdersHistoryCard extends StatelessWidget {
                                   text: '\$ ',
                                   style: TextStyle(
                                     fontSize: 16,
-                                    color:
-                                        darkModeController.getThemeFromBox()
-                                            ? colorIconDM
-                                            : colorText,
+                                    color: darkModeController.getThemeFromBox()
+                                        ? colorIconDM
+                                        : colorText,
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
                                 TextSpan(
                                   text: order.price.toString(),
                                   style: TextStyle(
-                                    color:
-                                        darkModeController.getThemeFromBox()
-                                            ? Colors.white
-                                            : Colors.black,
+                                    color: darkModeController.getThemeFromBox()
+                                        ? Colors.white
+                                        : Colors.black,
                                     fontSize: 16,
                                     fontWeight: FontWeight.bold,
                                   ),

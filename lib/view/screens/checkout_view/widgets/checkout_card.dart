@@ -8,13 +8,21 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../../../model/product_model.dart';
 
-class CheckoutCard extends StatelessWidget {
-  GetProductController getProductController = Get.find();
-  CrudProductController crudProductController = Get.find();
-  DarkModeController darkModeController = Get.find();
-  PriceController priceController = Get.find();
-
+class CheckoutCard extends StatefulWidget {
   CheckoutCard({Key? key}) : super(key: key);
+
+  @override
+  State<CheckoutCard> createState() => _CheckoutCardState();
+}
+
+class _CheckoutCardState extends State<CheckoutCard> {
+  GetProductController getProductController = Get.find();
+
+  CrudProductController crudProductController = Get.find();
+
+  DarkModeController darkModeController = Get.find();
+
+  PriceController priceController = Get.find();
 
   @override
   Widget build(BuildContext context) {
@@ -30,13 +38,14 @@ class CheckoutCard extends StatelessWidget {
 
         return SizedBox(
           width: Get.width,
-          height: Get.height -200,
+          height: Get.height - 200,
           child: ListView.builder(
             padding: const EdgeInsets.all(0),
             shrinkWrap: true,
             itemCount: checkoutList.length,
             itemBuilder: (context, i) {
               Product burger = checkoutList[i];
+
               return Container(
                 margin: const EdgeInsets.only(
                   left: 20,
@@ -133,104 +142,113 @@ class CheckoutCard extends StatelessWidget {
                               fontWeight: FontWeight.bold,
                             ),
                             const SizedBox(height: 15),
-                            // quantity and increese and decreese
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Row(
-                                  children: [
-                                    GestureDetector(
-                                      onTap: () {
-                                        priceController.decresse(i);
-                                      },
-                                      child: Container(
-                                        decoration: BoxDecoration(
-                                          shape: BoxShape.circle,
-                                          color: darkModeController
-                                                  .getThemeFromBox()
-                                              ? Colors.white
-                                              : colorMain,
+                            //delete and price
+                            GetBuilder<PriceController>(
+                              builder: (controller) => Column(
+                                crossAxisAlignment: CrossAxisAlignment.end,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  RichText(
+                                    text: TextSpan(
+                                      children: [
+                                        TextSpan(
+                                          text: '\$ ',
+                                          style: TextStyle(
+                                            fontSize: 18,
+                                            color: darkModeController
+                                                    .getThemeFromBox()
+                                                ? colorIconDM
+                                                : colorText,
+                                            fontWeight: FontWeight.bold,
+                                          ),
                                         ),
-                                        child: const Icon(
-                                          Icons.remove,
-                                          color: Colors.black,
-                                        ),
-                                      ),
+                                        TextSpan(
+                                          text: checkoutList[i].currentPrince ==
+                                                  0
+                                              ? checkoutList[i].price.toString()
+                                              : checkoutList[i]
+                                                  .currentPrince
+                                                  .toString(),
+                                          style: TextStyle(
+                                            fontSize: 18,
+                                            color: darkModeController
+                                                    .getThemeFromBox()
+                                                ? Colors.white
+                                                : Colors.black,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        )
+                                      ],
                                     ),
-                                    const SizedBox(width: 10),
-                                    GetBuilder<PriceController>(
-                                      builder: (controllerPrice) => CustomText(
-                                        text: controllerPrice
-                                                    .productQuantity[i] ==
-                                                null
-                                            ? '0'
-                                            : controllerPrice.productQuantity[i]
-                                                .toString(),
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                    const SizedBox(width: 10),
-
-                                    //incremenr
-                                    GestureDetector(
-                                      onTap: () {
-                                        priceController.increment(burger, i);
-                                      },
-                                      child: Container(
-                                        decoration: BoxDecoration(
-                                          shape: BoxShape.circle,
-                                          color: darkModeController
-                                                  .getThemeFromBox()
-                                              ? colorIconDM
-                                              : colorIconLM,
-                                        ),
-                                        child: const Icon(
-                                          Icons.add,
-                                          color: Colors.white,
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                )
-                              ],
+                                  ),
+                                ],
+                              ),
                             ),
                           ],
                         ),
                         const Spacer(),
-                        //delete and price
+
+                        // quantity and increese and decreese
                         Column(
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            RichText(
-                              text: TextSpan(
-                                children: [
-                                  TextSpan(
-                                    text: '\$ ',
-                                    style: TextStyle(
-                                      fontSize: 18,
-                                      color:
-                                          darkModeController.getThemeFromBox()
-                                              ? colorIconDM
-                                              : colorText,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                  TextSpan(
-                                    text: burger.price.toString(),
-                                    style: TextStyle(
-                                      fontSize: 18,
+                            Row(
+                              children: [
+                                GestureDetector(
+                                  onTap: () {
+                                    priceController.decresse(
+                                        checkoutList, checkoutList[i], i);
+                                  },
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
                                       color:
                                           darkModeController.getThemeFromBox()
                                               ? Colors.white
-                                              : Colors.black,
-                                      fontWeight: FontWeight.bold,
+                                              : colorMain,
                                     ),
-                                  )
-                                ],
-                              ),
-                            ),
+                                    child: const Icon(
+                                      Icons.remove,
+                                      color: Colors.black,
+                                    ),
+                                  ),
+                                ),
+                                const SizedBox(width: 10),
+                                GetBuilder<PriceController>(
+                                  builder: (controllerPrice) => CustomText(
+                                    text: checkoutList[i].quantity.toString(),
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                const SizedBox(width: 10),
+
+                                //incremenr
+                                GestureDetector(
+                                  onTap: () {
+                                    priceController.increment(
+                                      index: i,
+                                      products: checkoutList,
+                                      product: burger,
+                                    );
+                                  },
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      color:
+                                          darkModeController.getThemeFromBox()
+                                              ? colorIconDM
+                                              : colorIconLM,
+                                    ),
+                                    child: const Icon(
+                                      Icons.add,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            )
                           ],
                         ),
                       ],

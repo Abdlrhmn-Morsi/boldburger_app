@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:boldburger/controller/crud_product_controller.dart';
+import 'package:boldburger/view/screens/orders_history_view/orders_view.dart';
 
 import '../../../controller/dark_mode_controller.dart';
 import '../../../controller/price_controller.dart';
@@ -12,27 +13,30 @@ import '../../../const/const.dart';
 import '../../widgets/custom_text.dart';
 import 'package:get/get.dart';
 
-class CheckoutView extends StatelessWidget {
+class CheckoutView extends StatefulWidget {
   const CheckoutView({Key? key}) : super(key: key);
 
   @override
+  State<CheckoutView> createState() => _CheckoutViewState();
+}
+
+class _CheckoutViewState extends State<CheckoutView> {
+  DarkModeController darkModeController = Get.find();
+  CrudProductController crudProductController = Get.find();
+  PriceController priceController = Get.find();
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    DarkModeController darkModeController = Get.find();
-    CrudProductController crudProductController = Get.find();
     return Scaffold(
       body: Container(
         width: Get.width,
         height: Get.height,
         child: Column(
-          // crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Container(
-            //   width: Get.width,
-            //   height: Get.height,
-            //   color: Colors.transparent,
-            // ),
-            //app bar
-
             Padding(
               padding: const EdgeInsets.only(top: 50),
               child: CustomAppBar(
@@ -40,7 +44,6 @@ class CheckoutView extends StatelessWidget {
                 isCheckout: true,
               ),
             ),
-
             //checkout title
             const SizedBox(height: 20),
             Align(
@@ -71,14 +74,11 @@ class CheckoutView extends StatelessWidget {
             child: Container(
               alignment: Alignment.bottomCenter,
               child: Container(
-                // height: 110,
                 alignment: Alignment.center,
                 padding: const EdgeInsets.all(20),
-                // margin:
-                //     const EdgeInsets.only(left: 20, right: 20, bottom: 20),
                 decoration: BoxDecoration(
                   color: Colors.transparent,
-                  borderRadius: BorderRadius.only(
+                  borderRadius: const BorderRadius.only(
                     topLeft: Radius.circular(20),
                     topRight: Radius.circular(20),
                   ),
@@ -86,14 +86,6 @@ class CheckoutView extends StatelessWidget {
                     color: Colors.black.withOpacity(0.2),
                     width: 2,
                   ),
-                  // gradient: LinearGradient(
-                  //   begin: Alignment.topLeft,
-                  //   end: Alignment.bottomRight,
-                  //   colors: [
-                  //     Colors.black.withOpacity(0.0),
-                  //     Colors.black.withOpacity(0.0)
-                  //   ],
-                  // ),
                 ),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -124,9 +116,11 @@ class CheckoutView extends StatelessWidget {
                                 ),
                                 TextSpan(
                                   text: priceController.totalPrice.toString(),
-                                  style: const TextStyle(
+                                  style: TextStyle(
                                     fontSize: 22,
-                                    color: Colors.white,
+                                    color: darkModeController.getThemeFromBox()
+                                        ? Colors.white
+                                        : Colors.black,
                                     fontWeight: FontWeight.bold,
                                   ),
                                 )
@@ -136,7 +130,6 @@ class CheckoutView extends StatelessWidget {
                         ),
                       ],
                     ),
-              
                     CustomBtn(
                       text: 'Checkout',
                       colorText: Colors.white,
@@ -145,6 +138,9 @@ class CheckoutView extends StatelessWidget {
                       width: 160,
                       onPressed: () {
                         crudProductController.addOrdersList();
+                      Get.to(
+                          transition: Transition.cupertino,
+                          () => const OrdersHistoryView());
                       },
                     ),
                   ],

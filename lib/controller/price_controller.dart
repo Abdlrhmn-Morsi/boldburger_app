@@ -1,45 +1,40 @@
+import 'package:boldburger/controller/crud_product_controller.dart';
 import 'package:get/get.dart';
 import '../model/product_model.dart';
-import 'get_product_controller.dart';
-
-GetProductController getProductController = Get.find();
 
 class PriceController extends GetxController {
+  CrudProductController crudProductController = CrudProductController();
   int totalPrice = 0;
-  int productCount = 0;
-  int holdPrice = 0;
-  List<Product> _product = [];
-  List<ProductItem> _productCount = [];
+  int totalPriceFunction() {
+    update();
+    return totalPrice;
+  }
 
-  Map productQuantity = <int, int>{};
+  void increment({List<Product>? products, Product? product, int? index}) {
+    totalPrice = 0;
 
-  void increment(Product product, int index) {
-    if (productQuantity[index] == null) {
-      productQuantity[index] = 0;
-    } else {
-      productQuantity[index] ++;
-      productQuantity.forEach((key, value) {
-        
-        totalPrice = ( value*product.price!)+totalPrice ;
-      });
-
-      // totalPrice = productQuantity[index] + productQuantity[index]*product.price;
+    if (product!.quantity >= 1) {
+      product.quantity++;
+      product.currentPrince = product.quantity * product.price!;
     }
+    for (var e in products!) {
+      totalPrice += e.quantity * e.price!;
+    }
+
     update();
   }
 
-  void decresse(int index) {
-    if (productQuantity[index] <= 0) {
-      Get.snackbar('BoldBurger', 'can not decrement');
-    } else {
-      productQuantity[index] -= 1;
+  void decresse(List<Product> products, Product product, int index) {
+    totalPrice = 0;
+
+    if (product.quantity > 1) {
+      product.quantity--;
+      product.currentPrince = product.quantity * product.price!;
     }
+    for (var e in products) {
+      totalPrice += e.quantity * e.price!;
+    }
+
     update();
   }
-}
-
-class ProductItem {
-  int quantity;
-
-  ProductItem({this.quantity = 1});
 }

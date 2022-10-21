@@ -34,7 +34,7 @@ class FavoriteView extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 CustomText(
-                  text: 'Your favorites  ^_^',
+                  text: 'Your favorites ..',
                   fontWeight: FontWeight.bold,
                   fontSize: 27,
                 ),

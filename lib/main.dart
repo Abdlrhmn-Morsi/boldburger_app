@@ -1,3 +1,5 @@
+import 'package:boldburger/view/screens/auth_view/auth_view.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'controller/dark_mode_controller.dart';
 import 'controller/injection.dart';
 import 'view/screens/home_view/home_view.dart';
@@ -14,9 +16,7 @@ void main() async {
   Injection();
   runApp(const MyApp());
   SystemChrome.setSystemUIOverlayStyle(
-    SystemUiOverlayStyle(
-      statusBarColor: Colors.grey.shade300,
-    ),
+    const SystemUiOverlayStyle(statusBarColor: Colors.transparent),
   );
 }
 
@@ -33,7 +33,9 @@ class MyApp extends StatelessWidget {
       theme: ThemeData.light(),
       darkTheme: ThemeData.dark(),
       themeMode: darkModeController.theme,
-      home: HomeView(),
+      home: FirebaseAuth.instance.currentUser != null
+          ? HomeView()
+          : const AuthView(),
     );
   }
 }

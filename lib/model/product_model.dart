@@ -8,10 +8,12 @@ class Product {
   int? price;
   String? subtitle;
   dynamic userID;
-  int? productCount = 0;
+  int? productCount = 1;
   bool? isLiked;
   String? orderDateTime ;
-  int?totalPrice;
+  int totalPrice =0;
+  int quantity  = 1;
+  int currentPrince =0;
 
       
 
@@ -23,10 +25,12 @@ class Product {
     this.img,
     this.price,
     this.userID,
-    this.productCount = 0,
+    this.productCount = 1,
     this.isLiked,
     this.orderDateTime,
-    this.totalPrice,
+    this.totalPrice = 0,
+    this.quantity = 1,
+    this.currentPrince=0,
   });
 
   Product.fromMap(Map<String, dynamic> map) {

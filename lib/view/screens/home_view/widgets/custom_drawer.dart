@@ -1,3 +1,5 @@
+import 'package:boldburger/controller/auth_controller.dart';
+
 import '../../../../controller/dark_mode_controller.dart';
 import '../../../../const/const.dart';
 import '../../../../controller/add_img_controller.dart';
@@ -29,6 +31,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
   @override
   Widget build(BuildContext context) {
     AddImgController imgController = Get.find();
+    AuthController authController = Get.find();
     return Drawer(
       child: Padding(
         padding: const EdgeInsets.all(10),
@@ -84,7 +87,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
               ),
             ),
             CustomText(
-              text: '@zacEvrob',
+              text: '@zacEvron',
               fontSize: 25,
             ),
             GetBuilder<DarkModeController>(
@@ -108,6 +111,10 @@ class _CustomDrawerState extends State<CustomDrawer> {
                       ),
                     ),
                     onTap: () {
+                      if (title[i][0] == 'Log out') {
+                        authController.signOut(context);
+                      }
+
                       if (title[i][0] == 'Order History') {
                         Get.to(
                             transition: Transition.cupertino,

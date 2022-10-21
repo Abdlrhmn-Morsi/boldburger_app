@@ -1,3 +1,7 @@
+import 'package:boldburger/controller/search_controller.dart';
+import 'package:get/get.dart';
+
+import '../../../controller/get_product_controller.dart';
 import 'widgets/orders_card.dart';
 import '../../widgets/custom_app_bar.dart';
 import 'package:flutter/material.dart';
@@ -8,6 +12,7 @@ class OrdersHistoryView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    GetProductController  getProductController =Get.find();
     return Scaffold(
       body: Column(
         mainAxisAlignment: MainAxisAlignment.start,
@@ -18,6 +23,8 @@ class OrdersHistoryView extends StatelessWidget {
           CustomAppBar(
             isHomeView: false,
             isCheckout: true,
+            isDeleteFromOrderHistory: true,
+
           ),
           //Orders title
           const SizedBox(height: 10),
@@ -28,7 +35,7 @@ class OrdersHistoryView extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 CustomText(
-                  text: 'Orders',
+                  text: 'Ordered ..',
                   fontWeight: FontWeight.bold,
                   fontSize: 27,
                 ),
@@ -41,7 +48,7 @@ class OrdersHistoryView extends StatelessWidget {
                       fontSize: 22,
                     ),
                     CustomText(
-                      text: '\$55.80',
+                      text: '\$96.00',
                       fontWeight: FontWeight.bold,
                       fontSize: 20,
                     ),

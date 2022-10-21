@@ -1,3 +1,4 @@
+import 'package:boldburger/controller/crud_product_controller.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../controller/dark_mode_controller.dart';
@@ -15,10 +16,12 @@ class CustomAppBar extends StatelessWidget {
   Product? burgerLiked;
   bool isHomeView;
   Widget? child;
+  bool? isDeleteFromOrderHistory;
 
   bool isCheckout;
   CustomAppBar({
     Key? key,
+    this.isDeleteFromOrderHistory = false,
     this.child,
     this.OnTapFavorite,
     this.burgerLiked,
@@ -29,6 +32,7 @@ class CustomAppBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     DarkModeController darkModeController = Get.find();
+    CrudProductController crudProductController = Get.find();
     return Container(
       width: Get.width,
       height: 80,
@@ -96,14 +100,21 @@ class CustomAppBar extends StatelessWidget {
                                 'assets/images/profile.png',
                                 fit: BoxFit.contain,
                               )
-                            : Image.file(controller.img!, fit: BoxFit.cover,),
+                            : Image.file(
+                                controller.img!,
+                                fit: BoxFit.cover,
+                              ),
                       ),
                     ),
                   )
                 : isCheckout
                     ? IconButton(
                         padding: const EdgeInsets.all(0),
-                        onPressed: () {},
+                        onPressed: () {
+                          isDeleteFromOrderHistory!
+                              ? crudProductController.deleteAllOrdersHistory()
+                              : crudProductController.deleteAllFromCheckout();
+                        },
                         icon: const Icon(
                           Icons.delete_forever_outlined,
                           color: Colors.red,
