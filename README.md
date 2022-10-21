@@ -1,16 +1,21 @@
 # boldburger
 
-A new Flutter project.
+![boldburger](app_github_bg.png)
 
-## Getting Started
 
-This project is a starting point for a Flutter application.
+## App Features
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+- MVC patterns
+- State management => GetX 
+- Backend  => firebase 
+- dark mode
+- check out card 
+    - increments & decrement items 
+    - get the Total price 
+- order history 
+- add to favorites
+- advance search 
+- change your profile image 
+- sign in with Google 
+- sign in with email and password 
+- sign out 
